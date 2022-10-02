@@ -2,12 +2,12 @@
 
 {% extends "layout.html" %}
 
-{% block head_content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{%- block head_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" />
 {% endblock %}
 
 {% block main_content %}
-<form action="add_movie" method="post" novalidate class="form">
+<form name="add_movie" method="post" novalidate class="form">
     <div class="form__container">
         {{ form.hidden_tag() }}
         {{ render_text_field(form.title) }}

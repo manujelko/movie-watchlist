@@ -10,7 +10,7 @@ from flask import (
     current_app,
     url_for,
 )
-from movie_library.forms import MovieForm
+from movie_library.forms import ExtendedMovieForm, MovieForm
 from movie_library.models import Movie
 
 
@@ -45,6 +45,22 @@ def add_movie():
     return render_template(
         "new_movie.html", title="Movies Watchlist - Add Movie", form=form
     )
+
+
+@pages.route("/edit/<string:_id>", methods=["GET", "POST"])
+def edit_movie(_id: str):
+    _movie = Movie(**current_app.db.movie.find_one({"_id": _id}))
+    form = ExtendedMovieForm(obj=_movie)
+    if form.validate_on_submit():
+        _movie.cast = form.cast.data
+        _movie.series = form.series.data
+        _movie.tags = form.tags.data
+        _movie.description = form.description.data
+        _movie.video_link = form.video_link.data
+
+        current_app.db.movie.update_one({"_id": _movie._id}, {"$set": asdict(_movie)})
+        return redirect(url_for(".movie", _id= _movie._id))
+    return render_template("movie_form.html", movie=_movie, form=form)
 
 
 @pages.get("/movie/<string:_id>")

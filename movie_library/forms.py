@@ -19,11 +19,6 @@ class MovieForm(FlaskForm):
 
 
 class StringListField(TextAreaField):
-
-    def __init__(self):
-        super().__init__()
-        self.data = []
-
     def _value(self):
         if self.data:
             return "\n".join(self.data)
@@ -32,6 +27,8 @@ class StringListField(TextAreaField):
     def process_formdata(self, valuelist):
         if valuelist and valuelist[0]:
             self.data = [line.strip() for line in valuelist[0].split("\n")]
+        else:
+            self.data = []
 
 
 class ExtendedMovieForm(MovieForm):

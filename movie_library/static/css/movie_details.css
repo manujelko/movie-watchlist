@@ -64,6 +64,8 @@
     display: flex;
     text-decoration: none;
     align-items: center;
+    color: inherit;
+    margin-left: 1.5rem;
 }
 
 .movie__edit:hover {

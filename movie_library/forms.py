@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, SubmitField
-
+from wtforms import IntegerField, StringField, SubmitField, TextAreaField, URLField
 from wtforms.validators import InputRequired, NumberRange
 
 
@@ -17,3 +16,28 @@ class MovieForm(FlaskForm):
     )
 
     submit = SubmitField("Add Movie")
+
+
+class StringListField(TextAreaField):
+
+    def __init__(self):
+        super().__init__()
+        self.data = []
+
+    def _value(self):
+        if self.data:
+            return "\n".join(self.data)
+        return ""
+
+    def process_formdata(self, valuelist):
+        if valuelist and valuelist[0]:
+            self.data = [line.strip() for line in valuelist[0].split("\n")]
+
+
+class ExtendedMovieForm(MovieForm):
+    cast = StringListField("Cast")
+    series = StringListField("Series")
+    tags = StringListField("Tags")
+    description = TextAreaField("Description")
+    video_link = URLField("Video link")
+    submit = SubmitField("Submit")

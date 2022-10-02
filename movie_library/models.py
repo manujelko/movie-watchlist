@@ -16,3 +16,11 @@ class Movie:
     tags: list[str] = field(default_factory=list)
     description: Optional[str] = None
     video_link: Optional[str] = None
+
+
+@dataclass
+class User:
+    _id: str
+    email: str
+    password: str
+    movies: list[str] = field(default_factory=list)

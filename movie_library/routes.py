@@ -30,20 +30,26 @@ def add_movie():
     form = MovieForm()
 
     if form.validate_on_submit():
-        movie = Movie(
+        _movie = Movie(
             _id=uuid.uuid4().hex,
             title=form.title.data,
             director=form.director.data,
             year=form.year.data,
         )
 
-        current_app.db.movie.insert_one(asdict(movie))
+        current_app.db.movie.insert_one(asdict(_movie))
 
         return redirect(url_for(".index"))
 
     return render_template(
         "new_movie.html", title="Movies Watchlist - Add Movie", form=form
     )
+
+
+@pages.get("/movie/<string:_id>")
+def movie(_id: str):
+    _movie = Movie(**current_app.db.movie.find_one({"_id": _id}))
+    return render_template("movie_details.html", movie=_movie)
 
 
 @pages.get("/toggle-theme/")

@@ -46,11 +46,24 @@ html {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     /* Sets the shared font characteristics, so that they can be inherited globally */
     font-family: "Public Sans", sans-serif;
     color: var(--text-dark);
     line-height: 1.45;
     background-color: var(--background-color);
+}
+
+.main {
+    flex-grow: 1;
+    padding: 3rem 1.5rem 2rem 1.5rem;
+}
+
+@media screen and (min-width: 30em) {
+    .main {
+        padding-top: 5rem;
+    }
 }
 
 .header {
